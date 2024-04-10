@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx rollup -c"
   },
-  "keywords": [],
+  "keywords": ["page traffic tracker","url traffic tracker","page view","specific url view"],
   "author": "Kopil Das",
   "license": "MIT",
   "repository": {

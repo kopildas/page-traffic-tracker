@@ -8,7 +8,12 @@
   "scripts": {
     "build": "npx rollup -c"
   },
-  "keywords": ["page traffic tracker","url traffic tracker","page view","specific url view"],
+  "keywords": [
+    "page traffic tracker",
+    "url traffic tracker",
+    "page view",
+    "specific url view"
+  ],
   "author": "Kopil Das",
   "license": "MIT",
   "repository": {
@@ -23,8 +28,10 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.74",
+    "@types/react-router-dom": "^5.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
     "rollup": "^4.14.1",
     "tslib": "^2.6.2"
   }

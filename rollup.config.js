@@ -10,7 +10,7 @@ export default defineConfig({
     format: "es",
     name: "page-traffic-tracker",
   },
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom","react-router-dom"],
   plugins: [
     typescript({ tsconfig: "tsconfig.json" }),
     terser({

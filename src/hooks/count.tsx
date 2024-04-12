@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface ViewerData {
   message: string;
@@ -6,6 +7,7 @@ interface ViewerData {
   todayViews: number;
   today: string;
   averageView: number;
+  urls:string[];
 }
 
 // function for calling all viewer data api
@@ -37,7 +39,7 @@ async function getAllViewerData(
 }
 
 // hook about getting and passing all viewer data
-const usePageViewStatistics = (encryptedUUID: string) => {
+const usePageTraffic = (encryptedUUID: string) => {
   // const url = window.location.href;
   const formData = {
     encryptedUUID,
@@ -47,6 +49,7 @@ const usePageViewStatistics = (encryptedUUID: string) => {
   const [totalViews, setTotalViews] = useState<number>(0);
   const [todayViews, setTodayViews] = useState<number>(0);
   const [averageView, setAverageView] = useState<number>(0);
+  const [allUrls, setAllUrls] = useState<string[]>([]); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +58,7 @@ const usePageViewStatistics = (encryptedUUID: string) => {
         setTotalViews(responseData.totalViews);
         setTodayViews(responseData.todayViews);
         setAverageView(responseData.averageView);
-        
+        setAllUrls(responseData.urls);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -64,7 +67,7 @@ const usePageViewStatistics = (encryptedUUID: string) => {
     fetchData();
   }, []); 
 
-  return { totalViews,todayViews,averageView };
+  return { totalViews,todayViews,averageView,allUrls };
 
 };
 
@@ -99,7 +102,7 @@ async function getUrlTrafficData(
 }
 
 // hook about getting and passing specific url viewer data
-const useUrlSpecificViewStatistics = (encryptedUUID: string,url:string) => {
+const useUrlTraffic = (encryptedUUID: string,url:string) => {
   // const url = window.location.href;
   const formData = {
     encryptedUUID,
@@ -161,23 +164,26 @@ async function getTrackingPage(
 
 // hook about adding tracking page data into DB
 const useTrackingPage = (encryptedUUID: string) => {
-  const url = window.location.href;
+  const location = useLocation();
+  // const [url, setUrl] = useState(location.pathname); 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseData = await getTrackingPage(encryptedUUID, url);
-        
+        const responseData = await getTrackingPage(encryptedUUID, location.pathname);
+        // ... handle response data
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData();
-  }, []); 
+    fetchData(); 
 
-  return null; 
+  }, [location, encryptedUUID]); 
+
+  return null; // Or return any data needed from the hook
 };
 
 
 
-export { usePageViewStatistics,useUrlSpecificViewStatistics,useTrackingPage };
+export { usePageTraffic,useUrlTraffic,useTrackingPage };

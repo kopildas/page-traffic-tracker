@@ -6,9 +6,9 @@
 
 Key features of Page Traffic Tracker include:
 
+- **URL Tracking Component**: The `TrackUrl` component allows you to track the traffic for all URLs directly within your React components.
 - **Overall Traffic Monitoring**: Use the `usePageTraffic` hook to retrieve total views, today's views, and average views for the entire website.
 - **URL-Specific Traffic Analysis**: Use the `useUrlTraffic` hook to fetch traffic data for a specific URL, including total views, today's views, and average views.
-- **URL Tracking Component**: The `TrackUrl` component allows users to track the traffic for a particular URL directly within their React components.
 
 ## Installation
 
@@ -16,13 +16,15 @@ To install Page Traffic Tracker, use `npm`:
 
 Copy code
 
-`npm install page-traffic-tracker`
+```javascript
+npm install page-traffic-tracker
+```
 
 ## Usage
 
 ### 1. Collect UUID
 
-Before using Page Traffic Tracker, users need to collect a UUID (Universally Unique Identifier) from [this website](https://pageview-tracker.vercel.app/). This UUID will be used to track the traffic on their website.
+Before using Page Traffic Tracker, you need to collect a UUID (Universally Unique Identifier) from [this website](https://pageview-tracker.vercel.app/). This UUID will be used to track the traffic on your website.
 
 [![url=https://ibb.co/T0hW2cb](https://i.ibb.co/jw4JfhW/image.png)](https://pageview-tracker.vercel.app/)
 
@@ -31,60 +33,101 @@ Before using Page Traffic Tracker, users need to collect a UUID (Universally Uni
 Import the necessary hooks from Page Traffic Tracker into your React components or custom hooks:
 
 ```javascript
-import { usePageTraffic, useUrlTraffic } from "page-traffic-tracker";
+import { TrackUrls, usePageTraffic, useUrlTraffic } from "page-traffic-tracker";
 ```
 
-### 3. Retrieve Overall Traffic Data
+### 3. Track URL
 
-Use the `usePageTraffic` hook to retrieve overall traffic data for the website:
+Use the `TrackUrl` component into the `App.jsx` to track the traffic for Urls. And also pass the generated secure `id` as a props into this component.
 
 ```javascript
-const { totalViews, todayViews, averageView } = usePageTraffic(encryptedUUID);
+<TrackUrl id={id} />
 ```
 
-### 4. Retrieve URL-Specific Traffic Data
+### 4. Retrieve Overall Traffic Data
 
-Use the `useUrlTraffic` hook to retrieve traffic data for a specific URL:
+Use the `usePageTraffic` hook to retrieve overall traffic data for the website. And also pass the generated secure `id` as an argument, which allows the hook to retrieve data specific to that page or resource.
 
 ```javascript
-const { totalViews, todayViews, averageView } = useUrlTraffic(
-  encryptedUUID,
-  url
-);
+const { totalViews, todayViews, averageView, allUrls } = usePageTraffic(id);
 ```
 
-### 5. Track URL
+Understanding the Data:
 
-Use the `TrackUrl` component to track the traffic for a specific URL:
+- **totalViews:** This holds the total visits to the whole website.
+- **todayViews:** This holds the number of Visits to the same website on the current day.
+- **averageView:** This stores the average views per visit for that particular website.
+- **allUrls:** An array containing URLs associated with the retrieved data (linked URLs or different versions).
+
+### 5. Retrieve URL-Specific Traffic Data
+
+Use the `useUrlTraffic` hook to retrieve traffic data for a specific URL. And also pass the generated secure `id` and `url` as arguments into this hooks.
 
 ```javascript
-import { TrackUrl } from "page-traffic-tracker";
-<TrackUrl encryptedUUID={encryptedUUID} url={url} />;
+const { totalUrlViews, todayUrlViews, averageUrlView } = useUrlTraffic(id, url);
 ```
+Understanding the Data:
+
+- **totalUrlViews:** This holds the total visits to the specific URL.
+- **todayUrlViews:** This holds the number of visits to the same URL on the current day.
+- **averageUrlView:** This stores the average views per visit for that specific URL.
 
 ## Example
 
+###### 1. First initialize the `TrackUrls` component into the `APP.jsx` to track all the urls
+
 ```javascript
-import { usePageTraffic, useUrlTraffic, TrackUrl } from "page-traffic-tracker";
-const MyComponent = ({ encryptedUUID, url }) => {
-  const { totalViews, todayViews, averageView } = usePageTraffic(encryptedUUID);
-  const {
-    totalViews: urlTotalViews,
-    todayViews: urlTodayViews,
-    averageView: urlAverageView,
-  } = useUrlTraffic(encryptedUUID, url);
+import { TrackUrls } from "page-traffic-tracker";
+
+function App() {
+  const id = "Your generated secure user id from https://pageview-tracker.vercel.app/";
+
+  return (
+    <div className="w-screen h-auto flex flex-col  bg-shades-1">
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <TrackUrls id={id} />;
+      </Router>
+    </div>
+  );
+}
+```
+
+###### 2. Then use those `usePageTraffic` and `useUrlTraffic` hooks to retrieve the urls all traffic data.
+
+```javascript
+import { usePageTraffic, useUrlTraffic } from "page-traffic-tracker";
+
+const MyComponent = () => {
+  const id = "Your generated secure user id from https://pageview-tracker.vercel.app/";
+  const { totalViews, todayViews, averageView, allUrls } = usePageTraffic( id );
+
+  const url = "/";
+  const { totalUrlViews, todayUrlViews, averageUrlView } = useUrlTraffic( id, url );
+
   return (
     <div>
       <h2>Overall Traffic</h2>
       <p>Total Views: {totalViews}</p>
       <p>Today's Views: {todayViews}</p>
       <p>Average Views: {averageView}</p>
+      <p>All urls: </p>
+      <ul>
+        {allUrls.map((url) => (
+          <li key={url}>{url}</li>
+        ))}
+      </ul>
 
       <h2>URL-Specific Traffic</h2>
-      <p>Total Views: {urlTotalViews}</p>
-      <p>Today's Views: {urlTodayViews}</p>
-      <p>Average Views: {urlAverageView}</p>
-      <TrackUrl encryptedUUID={encryptedUUID} url={url} />
+      <p>Total Views: {totalUrlViews}</p>
+      <p>Today's Views: {todayUrlViews}</p>
+      <p>Average Views: {averageUrlView}</p>
     </div>
   );
 };

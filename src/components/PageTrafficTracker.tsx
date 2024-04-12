@@ -2,15 +2,15 @@ import * as React from 'react'
 import { useTrackingPage } from '../index'
 
 type PropsType ={
-  encryptedUUID: string
+  id: string
 }
 
 //this component helps to tracking url
-const PageTrafficTracker = ({encryptedUUID}:PropsType) => {
+const TrackUrls = ({id}:PropsType) => {
 
-  useTrackingPage(encryptedUUID)
+  useTrackingPage(id)
 
   return null
 }
 
-export {PageTrafficTracker}
+export {TrackUrls}

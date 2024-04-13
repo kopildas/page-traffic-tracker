@@ -38,10 +38,10 @@ import { TrackUrls, usePageTraffic, useUrlTraffic } from "page-traffic-tracker";
 
 ### 3. Track URL
 
-Use the `TrackUrl` component into the `App.jsx` to track the traffic for Urls. And also pass the generated secure `id` as a props into this component.
+Use the `TrackUrls` component into the `App.jsx` to track the traffic for Urls. And also pass the generated secure `id` as a props into this component.
 
 ```javascript
-<TrackUrl id={id} />
+<TrackUrls id={id} />
 ```
 
 ### 4. Retrieve Overall Traffic Data

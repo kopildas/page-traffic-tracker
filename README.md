@@ -6,7 +6,7 @@
 
 Key features of Page Traffic Tracker include:
 
-- **URL Tracking Component**: The `TrackUrl` component allows you to track the traffic for all URLs directly within your React components.
+- **URL Tracking Component**: The `TrackUrls` component allows you to track the traffic for all URLs directly within your React components.
 - **Overall Traffic Monitoring**: Use the `usePageTraffic` hook to retrieve total views, today's views, and average views for the entire website.
 - **URL-Specific Traffic Analysis**: Use the `useUrlTraffic` hook to fetch traffic data for a specific URL, including total views, today's views, and average views.
 

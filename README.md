@@ -99,7 +99,7 @@ function App() {
 }
 ```
 
-###### 2. Then use those `usePageTraffic` and `useUrlTraffic` hooks to retrieve the urls all traffic data.
+###### 2. Then use those `usePageTraffic` and `useUrlTraffic` hooks to retrieve all traffic data.
 
 ```javascript
 import { usePageTraffic, useUrlTraffic } from "page-traffic-tracker";
